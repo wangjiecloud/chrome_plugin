@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "现货白银行情",
+  "version": "1.1.0",
+  "description": "实时现货白银行情，支持分时图、日K、周K、月K线图，自定义刷新频率",
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://forex-data-feed.swissquote.com/*",
+    "https://query1.finance.yahoo.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "现货白银行情",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
+

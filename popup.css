@@ -1,0 +1,437 @@
+/* ===== CSS 变量 & 重置 ===== */
+:root {
+  --bg-primary: #1a1c22;
+  --bg-secondary: #22252e;
+  --bg-card: #2a2d38;
+  --bg-tab: #333645;
+  --border: #3a3d4a;
+  --text-primary: #e8eaf0;
+  --text-secondary: #8b90a4;
+  --text-label: #9ba0b5;
+  /* 涨跌语义色：红涨绿跌（A股惯例） */
+  --up:   #f04b5a;   /* 上涨→红 */
+  --down: #26d17a;   /* 下跌→纺 */
+  --green: #26d17a;  /* 保留兼容 */
+  --red:   #f04b5a;  /* 保留兼容 */
+  --teal: #4ecdc4;
+  --teal-dim: rgba(78, 205, 196, 0.15);
+  --gold: #f0c060;
+  --accent: #4e8cf0;
+  --nav-height: 44px;
+  --radius: 8px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 420px;
+  min-height: 600px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ===== 顶部导航 ===== */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+  padding: 0 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.nav-btn.spinning svg {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== 免责声明 ===== */
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(240, 192, 96, 0.08);
+  border-left: 3px solid var(--gold);
+  color: #b0960f;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.disclaimer-icon {
+  flex-shrink: 0;
+  font-size: 12px;
+  margin-top: 1px;
+  color: var(--gold);
+}
+
+/* ===== 价格数据网格 ===== */
+.price-grid {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+
+.price-row:last-child {
+  border-bottom: none;
+}
+
+.price-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  gap: 8px;
+}
+
+.price-item:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.price-label {
+  color: var(--text-label);
+  font-size: 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.price-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  transition: color 0.3s;
+}
+
+.price-value.green { color: var(--teal); }      /* 买卖价显蓝绿中性色 */
+.price-value.red   { color: var(--up);   }      /* 上涨显红色 */
+.price-value.down  { color: var(--down); }      /* 下跌显绿色 */
+.price-value.unit-label { color: var(--text-secondary); font-size: 12px; }
+.price-value.time-value { color: var(--text-secondary); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* 价格闪烁动画 */
+@keyframes priceFlash {
+  0% { opacity: 1; }
+  30% { opacity: 0.4; }
+  60% { opacity: 1; }
+}
+
+.price-flash {
+  animation: priceFlash 0.5s ease;
+}
+
+/* ===== 图表标签切换（可横向滚动）===== */
+.chart-tabs-wrapper {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.chart-tabs-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.chart-tabs {
+  display: flex;
+  padding: 8px 10px 0;
+  gap: 2px;
+  width: max-content;
+  min-width: 100%;
+}
+
+.tab-btn {
+  flex: none;
+  padding: 7px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.tab-btn.active {
+  color: var(--text-primary);
+  background: var(--bg-card);
+  border-bottom-color: var(--teal);
+  font-weight: 600;
+}
+
+/* ===== 图表容器 ===== */
+.chart-container {
+  position: relative;
+  background: var(--bg-secondary);
+  padding: 8px 0 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+#priceChart {
+  display: block;
+  width: 100%;
+}
+
+.chart-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(26, 28, 34, 0.85);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.chart-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* ===== 底部设置栏 ===== */
+.settings-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.settings-left, .settings-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-label {
+  color: var(--text-label);
+  font-size: 12px;
+}
+
+/* 切换开关 */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 21px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 21px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  left: 2px;
+  top: 2px;
+  background: var(--text-secondary);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .toggle-slider {
+  background: rgba(78, 205, 196, 0.25);
+  border-color: var(--teal);
+}
+
+input:checked + .toggle-slider::before {
+  transform: translateX(17px);
+  background: var(--teal);
+}
+
+/* 下拉选择器 */
+.interval-select {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.interval-select:focus, .interval-select:hover {
+  border-color: var(--teal);
+}
+
+.interval-select option {
+  background: var(--bg-card);
+}
+
+/* ===== 状态栏 ===== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+
+.status-dot.online {
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: pulse 2s infinite;
+}
+
+.status-dot.error {
+  background: var(--red);
+}
+
+.status-dot.loading {
+  background: var(--gold);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.status-text {
+  color: var(--text-secondary);
+  font-size: 11px;
+  flex: 1;
+}
+
+.last-update {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 涨跌幅颜色动效 ===== */
+.price-value.up-flash {
+  animation: upFlash 0.6s ease;
+}
+
+.price-value.down-flash {
+  animation: downFlash 0.6s ease;
+}
+
+@keyframes upFlash {
+  0% { color: var(--up); text-shadow: 0 0 8px var(--up); }
+  100% { color: var(--up); text-shadow: none; }
+}
+
+@keyframes downFlash {
+  0% { color: var(--down); text-shadow: 0 0 8px var(--down); }
+  100% { color: var(--down); text-shadow: none; }
+}
+
+/* ===== 滚动条美化 ===== */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
